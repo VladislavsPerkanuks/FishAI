@@ -2,11 +2,11 @@
 
 ## Problēmas nostādne
 
-Interneta vidē nav nepieciešamo rīku, zivs sugu identificēšanai
+Objektu atpazīšana, kas ir pamatā jebkurai programmai, kas spēj identificēt priekšmetus bildē vai attēlā, balstās uz dziļās mašinmācīšanās. Tādas lietotnes kā [Google Lens](https://lens.google/) vai [PictPicks](https://play.google.com/store/apps/details?id=jp.mydns.usagigoya.imagesearchviewer&hl=en&gl=US), spēj vispārīgi identificēt objektus, tādus, ka zivs, pudele, apavi, utt. Tās lietotnes parasti nedod paplašinātu informāciju par identificētu objektu, kā, piemēram, mūsu gadijumā zivs sugu. Aplikācijas, kas spēj iedod lietotājam paplašinātu informāciju, parasti ir ļoti ierobežotas, ar to, kādu datu kopu izmantoja izstrādātaji, lai apmācītu modeli. Mūsu gadijumā, tas nozīmē, ka ne visas Latvijas zivis, varēs veiksmīgi būt identificētas, jo banāli modelis nebija apmācīts ar tām. Tāpēc ir vajadzīgs risinājums, kas spēs veiksmīgi identificēt populārākās Latvijas zivs sugas.
 
 ## Mērķis
 
-Izveidot web lietotni, kurš ar mākslīgā intelekta palīdzību spēj apstrādāt zivju attēlus, atpazīst konkrētas zivs sugu un saglabāt tās lietotāja identificēto zivju galerijā ar geolokaciju un datumiem.
+Izveidot lietotni, kas balstīsies uz dziļās mašīnmācīšanās un spēs atpazīst lietotāja lejuplādēto zivs sugu saglabāt to lietotāja identificēto zivju bibliotēkā.
 
 # Līdzīgo risinājumu pārskats
 

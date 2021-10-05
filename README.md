@@ -2,17 +2,23 @@
 
 ## Problēmas nostādne
 
-Objektu atpazīšana, kas ir pamatā jebkurai programmai, kas spēj identificēt priekšmetus bildē vai attēlā, balstās uz dziļās mašinmācīšanās. Tādas lietotnes kā [Google Lens](https://lens.google/) vai [PictPicks](https://play.google.com/store/apps/details?id=jp.mydns.usagigoya.imagesearchviewer&hl=en&gl=US), spēj vispārīgi identificēt objektus, tādus, ka zivs, pudele, apavi, utt. Tās lietotnes parasti nedod paplašinātu informāciju par identificētu objektu, kā, piemēram, mūsu gadijumā zivs sugu. Aplikācijas, kas spēj iedod lietotājam paplašinātu informāciju, parasti ir ļoti ierobežotas, ar to, kādu datu kopu izmantoja izstrādātaji, lai apmācītu modeli. Mūsu gadijumā, tas nozīmē, ka ne visas Latvijas zivis, varēs veiksmīgi būt identificētas, jo banāli modelis nebija apmācīts ar tām. Tāpēc ir vajadzīgs risinājums, kas spēs veiksmīgi identificēt populārākās Latvijas zivs sugas.
+Attēlu atpazīšana, kas ir pamatā jebkurai programmai, kas spēj identificēt priekšmetus bildē vai attēlā, balstās uz mašinmācīšanos. Tādas lietotnes kā [Google Lens](https://lens.google/) vai [PictPicks](https://play.google.com/store/apps/details?id=jp.mydns.usagigoya.imagesearchviewer&hl=en&gl=US), spēj vispārīgi identificēt objektus attēlā, tādus, ka zivs, pudele, apavi, utt. Tādas lietotnes parasti nedod paplašinātu informāciju par identificētu objektu, kā, piemēram, mūsu gadijumā zivs sugu. Aplikācijas, kas spēj iedod lietotājam paplašinātu informāciju, parasti ir ļoti ierobežotas, ar to, kādu datu kopu izmantoja izstrādātaji, lai apmācītu modeli. Mūsu gadijumā, tas nozīmē, ka ne visas Latvijas zivis, varēs veiksmīgi būt identificētas, jo banāli modelis nebija apmācīts ar tām. Tāpēc ir vajadzīgs risinājums, kas spēs veiksmīgi identificēt populārākās Latvijas zivs sugas.
 
 ## Mērķis
 
-Izveidot lietotni, kas balstīsies uz dziļās mašīnmācīšanās un spēs atpazīst lietotāja lejuplādēto zivs sugu saglabāt to lietotāja identificēto zivju bibliotēkā.
+Izveidot lietotni, kas balstoties uz dziļās mašīnmācīšanās spēs atpazīst lietotāja lejuplādēto Latvijas zivs sugu un saglabāt to lietotāja identificēto zivju bibliotēkā.
 
 # Līdzīgo risinājumu pārskats
 
 ## Tehniskais Risinājums
 
-Visas šīs aplikācijas izmanto vienu algoritma veidu, kas balstās uz bilžu salīdzināšanu, kurā tiek aprēķināta arī precizitāte. Ar 1 apzīmētu 100% sakritību un tad attiecīgi no tā 0. zemāku precizitātes procentu. Algoritmi izmanto attēlus apmācībai no apmācības kopas. Šajās programmās apmācības kopas ir iepriekš definētas, parasti tās netiek aktīvi atjaunnotas un papildinātas.
+Attēlu atpazīšana, ir datorredzes apakškopa, kas ietver sevī vizuālu meklēšanu, semantisko segmentāciju un objektu identificēšanu no attēliem. Attēla atpazīšanas būtība ir algoritms, kas ņem attēlu kā ievadi un interpretē to, vienlaikus norādot šim attēlam klases un etiķetes. Piemēri ar dažiem attēlu klasifikācijas algoritmiem:
+
+- [**Bag of visual words (BOVW)**](https://towardsdatascience.com/bag-of-visual-words-in-a-nutshell-9ceea97ce0fb)
+- [**Support-vector machine (SVM)**](https://en.wikipedia.org/wiki/Support-vector_machine)
+- [**K-nearest neighbors (KNN)**](https://towardsdatascience.com/machine-learning-basics-with-the-k-nearest-neighbors-algorithm-6a6e71d01761)
+- [**Logistic regression**](https://medium.com/swlh/logistic-regression-for-image-classification-e15d0ae59ce9)
+- [**Convolutional neural network (CNN)**](https://towardsdatascience.com/wtf-is-image-classification-8e78a8235acb)
 
 ## Līdzīgi risinājumi:
 

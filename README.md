@@ -34,7 +34,7 @@ Galvenais novērtēšanas kritērijs būs - cik Latvijas zivju sugu, algoritms b
 2. [Picture Fish - Fish Identifier](https://play.google.com/store/apps/details?id=com.glority.picturefish&hl=en&gl=US)
 3. [Fishbrain](https://fishbrain.com/)
 4. [Fish Identification - Fish Scanner](https://play.google.com/store/apps/details?id=e.fish.natureai&hl=en&gl=US)
-5. [Fishsnap - Fish identifier] (https://apps.apple.com/us/app/fishsnap-fish-identifier/id1571610312)
+5. [Fishsnap - Fish identifier](https://apps.apple.com/us/app/fishsnap-fish-identifier/id1571610312)
 
 ### Vērtēšanas kritērīji:
 

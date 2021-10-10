@@ -34,7 +34,7 @@ Galvenais novērtēšanas kritērijs būs - cik Latvijas zivju sugu, algoritms b
 2. [Picture Fish - Fish Identifier](https://play.google.com/store/apps/details?id=com.glority.picturefish&hl=en&gl=US)
 3. [Fishbrain](https://fishbrain.com/)
 4. [Fish Identification - Fish Scanner](https://play.google.com/store/apps/details?id=e.fish.natureai&hl=en&gl=US)
-5. ...
+5. [Fishsnap - Fish identifier] (https://apps.apple.com/us/app/fishsnap-fish-identifier/id1571610312)
 
 ### Vērtēšanas kritērīji:
 
@@ -51,7 +51,7 @@ Galvenais novērtēšanas kritērijs būs - cik Latvijas zivju sugu, algoritms b
 | Picture Fish - Fish Identifier     | 4/5         | 21.99 Eur/gadā | Android, iOS | 3.8/5 Google play <br />4.0/5 App Store |
 | Fishbrain                          | 3/5         | 84.99 Eur/gadā | Android, iOS | 3.9/5 Google play<br />4.7/5 App Store  |
 | Fish Identification - Fish Scanner | 0/5         | Bezmaksas      | Android      | 3.1/5 Google play                       |
-
+| Fishsnap - Fish identifier         | 2/5         | 49,99 $/gadā   | iOS          | -
 
 
 # Tehniskais Risinājums

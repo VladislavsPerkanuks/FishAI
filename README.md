@@ -12,6 +12,8 @@ Izveidot lietotni, kas balstoties uz dziļās mašīnmācīšanās spēs atpazī
 
 ## Tehniskais Risinājums
 
+### Algoritmu veidi
+
 Attēlu atpazīšana, ir datorredzes apakškopa, kas ietver sevī vizuālu meklēšanu, semantisko segmentāciju un objektu identificēšanu no attēliem. Attēla atpazīšanas būtība ir algoritms, kas ņem attēlu kā ievadi un interpretē to, vienlaikus norādot šim attēlam klases un etiķetes. Piemēri ar dažiem attēlu klasifikācijas algoritmiem:
 
 - [**Bag of visual words (BOVW)**](https://towardsdatascience.com/bag-of-visual-words-in-a-nutshell-9ceea97ce0fb)
@@ -20,54 +22,52 @@ Attēlu atpazīšana, ir datorredzes apakškopa, kas ietver sevī vizuālu mekl�
 - [**Logistic regression**](https://medium.com/swlh/logistic-regression-for-image-classification-e15d0ae59ce9)
 - [**Convolutional neural network (CNN)**](https://towardsdatascience.com/wtf-is-image-classification-8e78a8235acb)
 
-## Līdzīgi risinājumi:
+### Novērtēšanas kritēriji
 
-### 1. [FishVerify](https://www.fishverify.com/)
+Galvenais novērtēšanas kritērijs būs - cik Latvijas zivju sugu, algoritms būs spējīgs precīzi atpazīt.
 
-#### Iespējas
-- Lejuplādēt vai nofotografēt zivis
-- Sekot jūras laikapstākļiem
-- Automātiskā nozvejas žurnāla izveide ar ģeolokāciju
-- Zvejas noteikumi attiecībā pret konkrētu sugu
-#### Pozitīvi
-- Virtuālais maks, lai uzglabātu makšķerēšanas licences un atļaujas
-- Papildus informācija par zivs izskatu, dzīvesvietu, izmēru un uzvedību
-- Iespēja iesniegt savu nozveju, lai kāds no viņu ekspertiem to identificētu
-#### Negatīvi
-- Par brīvu var identificēt tikai 5 zivs, tālāk 6 Eur par 5 identifikācijām vai 41.19 Eur/gadā
-- Viss izņemot zivs identifēšanas, nestrādā Latvijā, t.i. atļaujas, zveju licenses, laikapstākļi
-- No Latvijas 5 zivīm, 1 atpazina pareizi, 1 atpazina nepareizi, pārējos 3 "Not sure what it is"
+## Līdzīgi tehniskie risinājumi:
 
-### 2. [Picture Fish - Fish Identifier](https://play.google.com/store/apps/details?id=com.glority.picturefish&hl=en&gl=US)
+### Lietotnes:
 
-#### Iespējas
-- Lejuplādēt vai nofotografēt zivis
-- Saraksts ar identificētām zivīm
+1. [FishVerify](https://www.fishverify.com/)
+2. [Picture Fish - Fish Identifier](https://play.google.com/store/apps/details?id=com.glority.picturefish&hl=en&gl=US)
+3. [Fishbrain](https://fishbrain.com/)
+4. [Fish Identification - Fish Scanner](https://play.google.com/store/apps/details?id=e.fish.natureai&hl=en&gl=US)
+5. ...
 
-#### Pozitīvi
-- Pēc identifikācijas dod 3 izvēles ar sugas izvēli, sakārtoti no labāka uz sliktāka
-- Atpazīst zivis grūtos apstākļos no Latvijas 5 zivīm, 4 identificēja pareizi un vienu nepareizi
-- Apraksts par zivi, zivs zinātniskais nosaukums, atbildes uz visbiežāk cilvēku jautājumiem par šo zivi, un citas bildes ar šo zivi
-- Nav reklāmas
+### Vērtēšanas kritērīji:
 
-#### Negatīvi
-- 7 Dienas par brīvu, tad 21.99 Eur/gadā
-- Nav iespējams, pašam identificēt zivi
+**1. Precizitāte** - cik no 5 Latvijas zivīm, lietotne spēja precīzi atpazīt
+**2. Izmaksas** - cik izmaksā lietotne
+**3. Lietotāju vērtējums** - kā lietotāji ir novērtējuši lietotni
+**4. Pieejamība** - uz kādām platformām ir pieejama lietotne
 
+### Vērtēšanas rezultāti:
 
-### 3. [Fish Identification](https://fishid.tapcurate.com/)
-
-#### Iespējas
-- Lejuplādēt vai nofotografēt zivis
-- Organizēts saraksts ar identificētām zivīm
-
-#### Pozitīvi
-- Parādā "Confidence" līmeni
-- Parādā citas bildes ar to pašu zivi, priekš salīdzīnāšanas
-
-#### Negatīvi
-- Pieejams tikai App Store
-- No Latvijas 5 zivīm, neviena netika atpazīta
+| Lietotne                           | Precizitāte | Izmaksas       | Pieejamība   | Lietotāju atsauksmes                    |
+| ---------------------------------- | ----------- | -------------- | ------------ | --------------------------------------- |
+| FishVerify                         | 1/5         | 41.19 Eur/gadā | Android, iOS | 2.5/5 Google play <br />3.8/5 App Store |
+| Picture Fish - Fish Identifier     | 4/5         | 21.99 Eur/gadā | Android, iOS | 3.8/5 Google play <br />4.0/5 App Store |
+| Fishbrain                          | 3/5         | 84.99 Eur/gadā | Android, iOS | 3.9/5 Google play<br />4.7/5 App Store  |
+| Fish Identification - Fish Scanner | 0/5         | Bezmaksas      | Android      | 3.1/5 Google play                       |
 
 
 
+# Tehniskais Risinājums
+
+## Prasības
+
+**MoSCoW metode**:
+
+| Must haves                                  | Should haves                       | Could haves                    | Would not haves     |
+| :------------------------------------------ | :--------------------------------- | :----------------------------- | :------------------ |
+| Identificēt zivis vismaz ar 60% precizitāti | Tiek parādīts "Confidence" līmenis | Modeļa nepārtraukta uzlabošana | Maškerēšanas padomi |
+| Bibliotēka ar identificētām zivīm           |                                    |                                |                     |
+| CRUD operācijas                             |                                    |                                |                     |
+
+## Konceptu modelis
+
+
+
+![Koncepta datubāze](https://i.ibb.co/sFNKxBC/Untitled-1.png)

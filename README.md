@@ -63,7 +63,7 @@ Galvenais novērtēšanas kritērijs būs - cik Latvijas zivju sugu, algoritms b
 | Must haves                                  | Should haves                       | Could haves                    | Would not haves     |
 | :------------------------------------------ | :--------------------------------- | :----------------------------- | :------------------ |
 | Identificēt zivis vismaz ar 60% precizitāti | Tiek parādīts "Confidence" līmenis | Modeļa nepārtraukta uzlabošana | Maškerēšanas padomi |
-| Bibliotēka ar identificētām zivīm           |                                    |                                |                     |
+| Bibliotēka ar identificētām zivīm           | Tiek noteikta zivs noķeršanas lokācijas vieta                                  |                                |                     |
 | CRUD operācijas                             |                                    |                                |                     |
 
 ## Konceptu modelis

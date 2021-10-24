@@ -26,6 +26,14 @@ Attēlu atpazīšana, ir datorredzes apakškopa, kas ietver sevī vizuālu mekl�
 
 Galvenais novērtēšanas kritērijs būs - cik Latvijas zivju sugu, algoritms būs spējīgs precīzi atpazīt.
 
+### Izvēlētais algoritms
+
+Risinājuma izveidei, tiks izmantots dziļās mašinmācīšanās algoritms - Convolutional Neural Network, jeb īsumā CNN. Priekšrocībās šīm algoritmam ir:
+
+- Tas spēj efektīvi samazināt parametru skaitu, nezaudējot modeļa kvalitāti (Ātrāka/Mazāk resursus prasoša mācīšanās)
+- Ir pieejami gatavi modeļi, kurus var pārmacīt uz mūsu problēmu, kā piemēri, VGG16, Xception, ResNet, u.c. (Transfer Learning)
+- Tas automātiski nosaka svarīgākās klases iezīmes/īpatnības bez cilvēka uzraudzības/iejaukšanās.
+
 ## Līdzīgi tehniskie risinājumi:
 
 ### Lietotnes:
@@ -70,4 +78,15 @@ Galvenais novērtēšanas kritērijs būs - cik Latvijas zivju sugu, algoritms b
 
 
 
-![Koncepta datubāze](https://i.ibb.co/sFNKxBC/Untitled-1.png)
+![Koncepta datubāze](https://i.ibb.co/fxzxK0T/KONCEPT-MODELIS.png)
+
+## Tehnoloģiju steks
+
+![Tehnoloģiju Steks](https://i.ibb.co/QPgKFYd/tenholog-steks.png)
+
+
+
+
+
+Kā risinājums būs mājaslapa, kuras pamatnē būs Flask satvars, kopā ar Flask papildinājumu Flask-SQLAlchemy, lai varētu savienotos ar MySQL datubāzi. Tiks izmantots iebūvetais flask web serveris - Werkzeug. Un visticimāk, mājaslapa, tiks izvietota, uz viena no izstrādātāja datoriem.
+

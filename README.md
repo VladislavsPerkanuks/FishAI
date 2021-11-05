@@ -82,11 +82,13 @@ Risinājuma izveidei, tiks izmantots dziļās mašinmācīšanās algoritms - Co
 
 ## Tehnoloģiju steks
 
-![Tehnoloģiju Steks](https://i.ibb.co/QPgKFYd/tenholog-steks.png)
+|Priekšgalsistēma|
+|:-------------- |
 
 
 
 
 
-Kā risinājums būs mājaslapa, kuras pamatnē būs Flask satvars, kopā ar Flask papildinājumu Flask-SQLAlchemy, lai varētu savienotos ar MySQL datubāzi. Tiks izmantots iebūvetais flask web serveris - Werkzeug. Un visticimāk, mājaslapa, tiks izvietota, uz viena no izstrādātāja datoriem.
+
+Kā risinājums būs mājaslapa, kuras pamatnē būs Flask satvars un SQlite datubāze. Tiks izmantots iebūvetais flask web serveris - Werkzeug.
 

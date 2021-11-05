@@ -82,13 +82,24 @@ Risinājuma izveidei, tiks izmantots dziļās mašinmācīšanās algoritms - Co
 
 ## Tehnoloģiju steks
 
-|Priekšgalsistēma|
-|:-------------- |
+| Priekšgalsistēma  |                           Apraksts                           |
+| :---------------: | :----------------------------------------------------------: |
+| Bootstrap CSS, JS | Satvars  adaptīvu un mobilajām ierīcēm paredzētu vietņu izstrādei |
 
+| Aizmugursistēma |            Apraksts            |
+| :-------------: | :----------------------------: |
+|     Python      |     Programmēšanas valoda      |
+|      Flask      | Tīmekļa lapu izstrādes satvars |
+|     SQlite      |   Datu bāze datu glabāšanai    |
 
+|                        Mašīnmācīšanās                        |                         Apraksts                         |
+| :----------------------------------------------------------: | :------------------------------------------------------: |
+| [Google Teachable  machine](teachablemachine.withgoogle.com/) |             Modeļa izstrādei,  eksportēšanai             |
+|                          TensorFlow                          | Python  bibliotēka modeļa ielādei un prognozes veikšanai |
 
-
-
+|   Izvietošana   |              Apraksts              |
+| :-------------: | :--------------------------------: |
+|    Werkzeug     | Iebūvētais flask  tīmekļa serveris |
+| Python anywhere |       Izvietošanas  serveris       |
 
 Kā risinājums būs mājaslapa, kuras pamatnē būs Flask satvars un SQlite datubāze. Tiks izmantots iebūvetais flask web serveris - Werkzeug.
-

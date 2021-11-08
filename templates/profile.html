@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+<body>
+
+<header class="container">
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <h1> Hello, {{ current_user.username }} </h1>
+        </div>
+        <div class="col-lg-3 col-6">
+            <form method='POST' action="{{ url_for('logout') }}">
+                <input type="submit" value="Sign Out">
+            </form>
+        </div>
+    </div>
+</header>
+
+<div class="container" style="padding-left:6rem;padding-top: 1rem">
+    <form action="{{ url_for('upload') }}" method=post enctype=multipart/form-data>
+      <input type=file name=file onchange="this.form.submit()">
+    </form>
+</div>
+
+<div class="container">
+
+{% for array in info %}
+    <div class="row">
+        <div class="col-12">
+            <h3> {{( ''.join(array['Zvejas_datums'].unique())) }}</h3>
+        </div>
+    </div>
+    <div class="row">
+{% for picture in array['Bilde'] %}
+        <div class="col-4">
+            <img class="img-responsive rounded" src="data:image/jpeg;base64,{{ picture}}" style="width:6rem;height:6rem;">
+        </div>
+        {% endfor %}
+    </div>
+
+{% endfor %}
+
+</div>
+
+
+</body>
+</html>

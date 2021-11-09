@@ -1,0 +1,49 @@
+{% extends "head.html" %}
+{% block body %}
+    <header class="container">
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <h1> Hello, {{ current_user.username }} </h1>
+            </div>
+            <div class="col-lg-3 col-6">
+                <form method='POST' action="{{ url_for('logout') }}">
+                    <input type="submit" value="Sign Out">
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding-left:6rem;padding-top: 1rem">
+        <form action="{{ url_for('upload') }}" method=post enctype=multipart/form-data>
+            <input type=file name=file onchange="this.form.submit()">
+        </form>
+    </div>
+
+    <div class="container">
+
+        {% for array in info %}
+
+            <div class="row g-1" style="margin-top: 2rem">
+                <div class="col-12">
+                    {#            <h2> {{( ''.join(array['Zvejas_datums'].unique())) }}</h2>#}
+                    <h2> {{ datumi[(loop.index0)] }}</h2>
+                </div>
+            </div>
+            <div class="row g-1">
+
+                {% for key,value in array.iterrows() %}
+                    <div class="col-4 ">
+                        <img class="img-responsive rounded" src="data:image/jpeg;base64,{{ value['Bilde'] }}"
+                             style="width:6.9rem;height:6.5rem; object-fit: cover " id="{{ value['ID'] }}"
+                             onclick="window.location.href = '{{ url_for('bilde',bild_id = value['ID']) }}'">
+                    </div>
+                {% endfor %}
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
+
+{% endblock %}

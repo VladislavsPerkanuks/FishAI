@@ -14,5 +14,9 @@ def get_file_path(file):
     return file_path
 
 def get_today_date():
-    a = datetime.now()
-    return a.strftime("%Y-%m-%d")
+    #return datetime.now().strftime("%d.%m.%Y")
+    return datetime.now().strftime("%Y-%m-%d")
+
+def date_string_from_normal_to_db_format(date_string):
+    return datetime.strptime(date_string, '%d.%m.%Y').strftime('%Y-%m-%d')
+

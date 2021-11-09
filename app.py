@@ -10,6 +10,7 @@ from run import create_app
 from functions import *
 from model.predictions import predict
 import pandas as pd
+
 db = 'DAB.db'
 
 app = create_app()
@@ -70,28 +71,32 @@ def register():
 @app.route("/", methods=['GET', 'POST'])
 def profile():
     try:
-        query = """SELECT * from Loms where Lietotaja_ID = ?"""
+        query = """SELECT * from Loms where Lietotaja_ID = ? ORDER BY Zvejas_datums DESC """
         connection = sqlite3.connect(db)
         cur = connection.cursor()
-        result = pd.read_sql(query,connection,params=[current_user.id],index_col='ID')
+        result = pd.read_sql(query, connection, params=[current_user.id])
         cur.close()
         connection.close()
         unique_dates = []
         df_array = []
+        normal_dat = []
         for reslt in result['Zvejas_datums']:
             if reslt not in unique_dates:
                 unique_dates.append(reslt)
+                normal_date = datetime.strptime(reslt, '%Y-%m-%d').strftime('%d.%m.%Y')
+                normal_dat.append(normal_date)
 
         for date in unique_dates:
             hey = result[result['Zvejas_datums'] == date]
             df_array.append(hey)
 
-        #print(df_array)
+        # print(df_array)
 
         for array in df_array:
             print(array['Zvejas_datums'].unique())
 
-        return render_template('profile.html', id=current_user.id,datumi=unique_dates,info=df_array)
+        return render_template('profile.html', title="Main gallery", id=current_user.id, datumi=normal_dat,
+                               info=df_array)
 
     except:
         return redirect(url_for('login'))
@@ -124,6 +129,9 @@ def save_fish():
         connection = sqlite3.connect(db)
         cur = connection.cursor()
         query = """ INSERT INTO Loms VALUES (Null,?,?,?,?,?,?,?,?)"""
+
+        # date = date_string_from_normal_to_db_format(data['date-inp'])
+
         values_to_insert = (
             current_user.id, data['blob-file'], data['ai_predict'], data['fish_name'], data['date-inp'],
             data['locat-inp'], data['weight-inp'], data['size-inp'])
@@ -135,5 +143,12 @@ def save_fish():
     return redirect(url_for('profile'))
 
 
+@app.route("/bilde", methods=['GET', 'POST'])
+@login_required
+def bilde():
+    bild_id = request.args.get('bild_id')
+    return render_template('bilde.html',bild_id=bild_id)
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, threaded=True)
+    app.run(host='0.0.0.0', port=8080, threaded=True, debug=True)

@@ -1,39 +1,94 @@
-{% extends "html_template.html" %}
-{% block info %}
- <form method='POST' action="">
-  {{ form.hidden_tag() }}
-  <fieldset class="form-group"> 
-   <h1>Sign Up</h1>
-   <div class="form-group">
-    {{ form.username.label(class="form-control-label")}}
-    {% if form.username.errors %}
-     {{ form.username(class="form-control form-control-lg is-invalid") }}
-     <div class="invalid-feedback">
-      {% for error in form.username.errors %}
-       <span>{{ error }}</span>
-      {% endfor %}
-     </div>
-    {% else %}  
-     {{ form.username(class="form-control form-control-lg")}}
-    {% endif %}
-   </div>
-   <div class="form-group">
-    {{ form.password.label(class="form-control-label")}}
-    {% if form.password.errors %}
-     {{ form.password(class="form-control form-control-lg is-invalid") }}
-     <div class="invalid-feedback">
-      {% for error in form.password.errors %}
-       <span>{{ error }}</span>
-      {% endfor %}
-     </div>
-    {% else %}
-     {{ form.password(class="form-control form-control-lg")}}
-    {% endif %}
-   </div>
-  </fieldset>
-  <div class="form-group">
-   {{ form.submit(class="btn btn-outline-info")}}
-  </div>
- </form>
- <h6>Already have an account? <a href="javascript:void(0)" onclick="location.href='/login'">Sign In Instead!</a></h6>
-{% endblock info %}
+{% extends "head.html" %}
+{% block body %}
+
+    <div class="d-flex pt-4 ps-4">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}"><strong>{{ message }}</strong></div>
+                    {#                        <p class="alert alert-{{ category }}">#}
+{#                    <p class="alert alert-success"></p>#}
+                    {#                        </p>#}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+    </div>
+
+
+    <form method='POST' action="">
+        <div class="form-group m-4 mt-2">
+            <h1 class="display-1 text-center mb-5"><strong>Sign Up</strong></h1>
+            {{ form.hidden_tag() }}
+            <div class="form-floating mb-3 me-2">
+                {# name field #}
+                {% if form.name.errors %}
+                    {{ form.name(class="form-control is-invalid",placeholder="Vladisalvs") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.name.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.name(class="form-control",placeholder="Vladisalvs") }}
+                {% endif %}
+                {{ form.name.label() }}
+            </div>
+            <div class="form-floating mb-3 me-2">
+                {# Username field #}
+
+                {% if form.username.errors %}
+                    {{ form.username(class="form-control is-invalid",placeholder="vlad1234") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.username(class="form-control",placeholder="vlad1234") }}
+                {% endif %}
+                {{ form.username.label() }}
+            </div>
+            {# Password field #}
+            <div class="form-floating mb-3 me-2">
+                {% if form.password.errors %}
+                    {{ form.password(class="form-control is-invalid",placeholder="password") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.password(class="form-control",placeholder="password") }}
+                {% endif %}
+                {{ form.password.label() }}
+            </div>
+            {# Repeat Password field #}
+            <div class="form-floating mb-3 me-2">
+
+                {% if form.confirm.errors %}
+                    {{ form.confirm(class="form-control is-invalid",placeholder="Same password") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.confirm.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.confirm(class="form-control",placeholder="Same password") }}
+                {% endif %}
+                {{ form.confirm.label() }}
+            </div>
+
+        </div>
+        <div class="form-group text-center">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+    <div class="container p-4 text-center">
+        <h6>Already have an account? <a class="link-primary" href="javascript:void(0)" onclick="location
+                .href='{{ url_for
+    ('login') }}'">Sign
+            in
+            instead!</a></h6>
+    </div>
+{% endblock %}

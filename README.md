@@ -76,9 +76,17 @@ Risinājuma izveidei, tiks izmantots dziļās mašinmācīšanās algoritms - Co
 
 ## Konceptu modelis
 
+### Modelis
 
+![Koncepta datubāze](https://i.ibb.co/dt0SgSD/Screenshot-2021-11-12-103733.png)
 
-![Koncepta datubāze](https://i.ibb.co/fxzxK0T/KONCEPT-MODELIS.png)
+### Apraksts
+
+**Lietotājs** - iekļauj sevī informāciju par lietotāju
+
+**Loms** - iekļauj sevī informāciju par konkrētā lietotāja lomu t.i. loma bilde, datums, svars u.c
+
+**Prognozes** - iekļauj sevī informāciju par konkrētā loma dziļās mašīnmācīšānās prognozēm. Šeit ir informācija par prognozes zivs nosaukumu un pašu prognozi (procentos). Kopumā lietotājam tiks izvadītās trīs iespējamākās prognozes. Piem, Nosaukums1 - lasis, procenti1 - 56%, Nosaukums2 - karpa, procenti2 - 33% un Nosaukums3 - līdaka, procenti3 - 11%. Lietotājam ir iespēja iedot savu nosaukumu zivij, rindā lietotaja_nosaukums, ja lietotajs to nav izdarījis, tad lietotaja_nosaukums būs vienāds ar nosaukums1. Tāda pieeja, ļauj saprast vai modelis ir pareizi prognozējis zivs nosaukumu, citos vārdos – ja lietotaja_nosaukums == nosaukums1, ir pieņemts, ka modeļa prognoze ir pareiza, un ja lietotaja_nosaukums != nosaukms1, tad ir pieņemts, ka modeļa prognoze nav pareiza. Šo informāciju varēs izmantot, lai grupētu bildes pēc nosaukuma un prognozes patiesības, un tālāk pārmācīt modeli, ar papildus jaunām bildēm.
 
 ## Tehnoloģiju steks
 

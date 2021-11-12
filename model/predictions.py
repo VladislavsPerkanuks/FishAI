@@ -2,10 +2,10 @@ from keras.models import load_model
 from PIL import Image, ImageOps
 import numpy as np
 
-
+model = load_model('model/keras_model.h5', compile=False)
 def predict(bilde):
     # Load the model
-    model = load_model('model/keras_model.h5', compile=False)
+
 
     # Create the array of the right shape to feed into the keras model
     # The 'length' or number of images you can put into the array is
@@ -33,7 +33,7 @@ def predict(bilde):
     prediction = [val for sbulist in prediction for val in sbulist]
 
     for label, predict1 in zip(labels, prediction):
-        predict_dict[label] = predict1 * 100
+        predict_dict[label] = round(predict1 * 100,1)
 
     sort_orders = sorted(predict_dict.items(), key=lambda x: x[1], reverse=True)
 

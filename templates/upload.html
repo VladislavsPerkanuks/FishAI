@@ -1,77 +1,99 @@
 {% extends "head.html" %}
 {% block body %}
-<form method="post" action="{{ url_for('save_fish') }}" id="edit_form">
-    <div class="text-center" style="margin-top:1rem">
-        <div class="container" style="width:90%">
-            <input type="text" class="form-control" placeholder="Zivs Nosaukums"
-                   aria-label="Username" value="{{ predictions[0][0] }}" name="fish_name" style="text-align:
+    <form method="post" action="{{ url_for('save_fish') }}" id="edit_form">
+        <div class="text-center" style="margin-top:1rem">
+            <div class="container" style="width:90%">
+                <input type="text" class="form-control" placeholder="Zivs Nosaukums"
+                       aria-label="Username" value="{{ predictions[0][0] }}" name="fish_name" style="text-align:
                                            center;font-weight:bold;font-size:2rem"
-                   aria-describedby="basic-addon1" style="max-width:90%;display:inline">
-        </div>
+                       aria-describedby="basic-addon1" style="max-width:90%;display:inline">
+            </div>
 
-        <img class="rounded mx-auto d-block" src="data:image/jpeg;base64,{{ blob_photo }}" style="max-width:90%;
+            <img class="rounded mx-auto d-block" src="data:image/jpeg;base64,{{ blob_photo }}" style="max-width:90%;
     margin-top: 1rem">
-    </div>
-
-
-    <div class="container" style="margin-top:1rem;width:85%">
-        <h4 style="margin-top:1rem">{{ predictions[0][0] }}</h4>
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped bg-success" style="width: {{ predictions[0][1] }}%;">{{
-                    predictions[0][1]|round(1) }}%</div>
         </div>
-        <h4 style="margin-top:1rem">{{ predictions[1][0] }}</h4>
-        <div class="progress">
 
-            <div class="progress-bar progress-bar-striped bg-info" style="width: {{ predictions[1][1] }}%;">{{
-                    predictions[1][1]|round(1) }}%</div>
-        </div>
-        <h4 style="margin-top:1rem">{{ predictions[2][0] }}</h4>
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped bg-warning" style="width: {{ predictions[2][1] }}%;">{{
-                    predictions[2][1]|round(1) }}%</div>
-        </div>
-    </div>
 
-    <div class="container" style="margin-top:1.5rem;width:85%">
-        <div class="input-group mb-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Date: </span>
+        <div class="container" style="margin-top:1rem;width:85%">
+            <h4 style="margin-top:1rem">{{ predictions[0][0] }}</h4>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-success" style="width: 0;"
+                     id="prg1">{{ predictions[0][1] }}%
+                </div>
             </div>
-            <input type="date" class="form-control" name="date-inp" value="{{ date }}">
-        </div>
-        <div class="input-group mb-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Size: </span>
+            <h4 style="margin-top:1rem">{{ predictions[1][0] }}</h4>
+            <div class="progress">
+
+                <div class="progress-bar progress-bar-striped bg-info" style="width: 0;"
+                     id="prg2">{{ predictions[1][1] }}%
+                </div>
             </div>
-            <input type="text" class="form-control" placeholder="kg" aria-label="Username"
-                   aria-describedby="basic-addon1" name="size-inp">
-        </div>
-
-        <div class="input-group mb-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Weight: </span>
+            <h4 style="margin-top:1rem">{{ predictions[2][0] }}</h4>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-warning" style="width: 0;"
+                     id="prg3">{{ predictions[2][1] }}%
+                </div>
             </div>
-            <input type="text" class="form-control" placeholder="m" aria-label="Username"
-                   aria-describedby="basic-addon1" name="weight-inp">
         </div>
 
-        <div class="input-group mb-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Location: </span>
+        <div class="container" style="margin-top:1.5rem;width:85%">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Date: </span>
+                </div>
+                <input type="date" class="form-control" name="date-inp" value="{{ date }}" min="2010-01-01" max="{{ date }}">
             </div>
-            <input type="text" class="form-control" placeholder="Ķīšezers" aria-label="Username"
-                   aria-describedby="basic-addon1" name="locat-inp">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Size: </span>
+                </div>
+                <input type="number" step = "any" class="form-control" placeholder="kg" aria-label="Username"
+                       aria-describedby="basic-addon1" name="size-inp">
+            </div>
+
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Weight: </span>
+                </div>
+                <input type="number" step = "any" class="form-control" placeholder="m" aria-label="Username"
+                       aria-describedby="basic-addon1" name="weight-inp">
+            </div>
+
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Location: </span>
+                </div>
+                <input type="text" class="form-control" placeholder="Ķīšezers" aria-label="Username"
+                       aria-describedby="basic-addon1" name="locat-inp">
+            </div>
         </div>
-    </div>
-    <input type="text" name="ai_predict" style="display: none" value="{{ predictions[0][0] }}"/>
-    <input type="text" name="blob-file" style="display: none" value="{{ blob_photo }}"/>
-    <div class="text-center" style="margin-top:1rem">
-        <button type="button" class="btn btn-danger" onclick="window.location.href='{{ url_for('profile')
-                }}'" style="margin-right: 0.75rem;">Cancel</button>
-        <button type="submit" class="btn btn-primary">Save</button>
-    </div>
+        <input type="text" name="ai_predict" style="display: none" value="{{ predictions }}"/>
+        <input type="text" name="blob-file" style="display: none" value="{{ blob_photo }}"/>
+        <div class="text-center" style="margin-top:1rem">
+            <button type="button" class="btn btn-danger" onclick="window.location.href='{{ url_for('profile') }}'"
+                    style="margin-right: 0.75rem;">Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
 
 
-</form>
+    </form>
+    <script>
+
+        // Set the width to animate the progress bar
+        // Along with time duration in milliseconds
+        $("#prg1").animate({
+            width: "{{ predictions[0][1] }}%",
+        }, 1500);
+
+        $("#prg2").animate({
+            width: "{{ predictions[1][1] }}%",
+        }, 1500);
+
+        $("#prg3").animate({
+            width: "{{ predictions[2][1] }}%",
+        }, 1500);
+    </script>
+
+
 {% endblock %}

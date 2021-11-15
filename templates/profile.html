@@ -1,23 +1,16 @@
 {% extends "head.html" %}
 {% block body %}
-    <header class="d-flex p-4 justify-content-between align-items-center" style="background-color: rgb(134, 155, 174)">
-        <h3 class="text-white"> Hello, {{ current_user.username }} </h3>
+    <header class="d-flex p-4 justify-content-between" style="background-color: rgb(134, 155, 174)">
+        <h3 class="text-white my-auto"> Hello, {{ current_user.name }} </h3>
         <form method='POST' action="{{ url_for('logout') }}">
             <button type="submit" class="btn btn-primary"><i class="bi bi-box-arrow-right"></i> Sign Out</button>
-{#            <input type="submit" value="Sign Out" class="btn btn-primary"></i>#}
         </form>
     </header>
 
-    {#    <div class="d-flex align-items-center p-4" style="padding-left:6rem;padding-top: 1rem">#}
-    {#        <form action="{{ url_for('upload') }}" method=post enctype=multipart/form-data>#}
-    {#            <input type=file name=file onchange="this.form.submit()">#}
-    {#        </form>#}
-    {#    </div>#}
-
     <div class="d-flex justify-content-center pt-4">
-        <form action="{{ url_for('upload') }}" method=post enctype=multipart/form-data>
+        <form action="{{ url_for('photo_upload') }}" method=post enctype=multipart/form-data>
             <div class="input-file-container">
-                <input class="input-file" id="my-file" type="file" name="file" onchange="this.form.submit()">
+                <input class="input-file" id="my-file" type="file" name="file" accept="image/*" onchange="this.form.submit()">
                 <label tabindex="0" for="my-file" class="input-file-trigger"><i class="bi bi-cloud-arrow-up"></i> Upload
                     Fish
                 </label>
@@ -26,22 +19,21 @@
         </form>
     </div>
 
-    <div class="container">
+    <div class="container mt-4">
 
         {% for array in info %}
 
-            <div class="row g-1" style="margin-top: 2rem">
+            <div class="row g-1 mt-3">
                 <div class="col-12">
                     {#            <h2> {{( ''.join(array['Zvejas_datums'].unique())) }}</h2>#}
-                    <h2> <strong>{{ datumi[(loop.index0)] }}</strong></h2>
+                    <h5><strong>{{ datumi[(loop.index0)] }}</strong></h5>
                 </div>
             </div>
-            <div class="row gx-1 gy-2">
-
+            <div class="row gx-0 gy-1">
                 {% for key,value in array.iterrows() %}
-                    <div class="col-4 ">
-                        <img class="img-responsive rounded" src="data:image/jpeg;base64,{{ value['Bilde'] }}"
-                             style="width:95%;height:100%; object-fit: cover " id="{{ value['ID'] }}"
+                    <div class="col-4">
+                        <img class="rounded" src="data:image/jpeg;base64,{{ value['Bilde'] }}"
+                            style="width:97%;height:100%; object-fit: cover " id="{{ value['ID'] }}"
                              onclick="window.location.href = '{{ url_for('bilde',bild_id = value['ID']) }}'">
                     </div>
                 {% endfor %}

@@ -1,22 +1,17 @@
 {% extends "head.html" %}
 {% block body %}
-    <div class="d-flex pt-4 ps-4 justify-content-center align-items-center">
+    <div class="container text-center p-4 pb-2">
         {% with messages = get_flashed_messages(with_categories=True) %}
             {% if messages %}
                 {% for category, message in messages %}
-                     <div class="alert alert-{{ category }}"><strong>{{ message
-                             }}</strong></div>
-                    {#                        <p class="alert alert-{{ category }}">#}
-{#                    <p class="alert alert-success">{{ message }}</p>#}
-                    {#                        </p>#}
+                    <div class="alert alert-{{ category }}"><strong>{{ message }}</strong></div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
-     </div>
-
+    </div>
 
     <form method='POST' action="">
-        <div class="form-group m-4 mt-2">
+        <div class="form-group p-4 pt-2">
             {{ form.hidden_tag() }}
             <h1 class="display-1 text-center mb-5"><strong>Log In</strong></h1>
             <div class="form-floating mb-3 me-2">
@@ -24,7 +19,7 @@
                     {{ form.username(class="form-control is-invalid",placeholder="username") }}
                     <div class="invalid-feedback">
                         {% for error in form.username.errors %}
-                          {{ error }}
+                            {{ error }}
                         {% endfor %}
                     </div>
                 {% else %}
@@ -51,11 +46,11 @@
             {{ form.submit(class="btn btn-primary") }}
         </div>
     </form>
-       <div class="container p-4 text-center">
-    <h6>Don't have an account? <a class="link-primary" href="javascript:void(0)" onclick="location.href='{{url_for
-    ('register')}}'">Create
-        one
-        now!</a></h6>
-       </div>
+    <div class="container p-4 mt-2 text-center">
+        <h6>Don't have an account? <a class="link-primary" href="javascript:void(0)" onclick="location.href='{{ url_for
+    ('register') }}'">Create
+            one
+            now!</a></h6>
+    </div>
 
 {% endblock %}

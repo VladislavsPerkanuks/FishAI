@@ -1,64 +1,157 @@
 {% extends "head.html" %}
 {% block body %}
-{% for key,value in info.iterrows() %}
-
-    <form method="post" action="{{ url_for('update_db')}}" id="edit_form">
-        <div class="text-center" style="margin-top:1rem">
-            <div class="container" style="width:90%">
-                <input type="text" class="form-control" placeholder="Zivs Nosaukums"
-                       aria-label="Username" value="{{ value['Lietotaja_nosaukums'] }}" name="fish_name"
-                       style="text-align:
-                                           center;font-weight:bold;font-size:2rem"
-                       aria-describedby="basic-addon1" style="max-width:90%;display:inline">
-            </div>
-
-            <img class="rounded mx-auto d-block" src="data:image/jpeg;base64,{{ value['Bilde'] }}" style="max-width:90%;
-    margin-top: 1rem">
-        </div>
-
-
-
-
-        <div class="container" style="margin-top:1.5rem;width:85%">
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Date: </span>
+    {% for key,value in info.iterrows() %}
+        <form method="post" action="">
+            {{ form.hidden_tag() }}
+            <div class="text-center m-2 mt-4">
+                <div class="container">
+                    <div class="form-floating mb-3 me-2">
+                        {% if form.fish_name.errors %}
+                            {{ form.fish_name(class="form-control h-75 is-invalid h5",placeholder="Fish name",
+                             value=value['Lietotaja_nosaukums'] ) }}
+                            <div class="invalid-feedback">
+                                {% for error in form.fish_name.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.fish_name(class="form-control h-75 title-input",placeholder="Fish name",
+                            value=value['Lietotaja_nosaukums'] ) }}
+                        {% endif %}
+                        {{ form.fish_name.label() }}
+                    </div>
                 </div>
-                <input type="date" class="form-control" name="date-inp" value="{{ value['Zvejas_datums'] }}"
-                       min="2010-01-01" max="{{
-                        date }}">
             </div>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Size: </span>
-                </div>
-                <input type="number" step = "any" class="form-control" placeholder="m" aria-label="Username"
-                       aria-describedby="basic-addon1" name="size-inp" value="{{ value['izmers'] }}">
-            </div>
+            <img class="rounded mx-auto d-block mt-2" src="data:image/jpeg;base64,{{ value['Bilde'] }}"
+                 style="max-width:90%;">
 
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Weight: </span>
-                </div>
-                <input type="number" step = "any" class="form-control" placeholder="kg" aria-label="Username"
-                       aria-describedby="basic-addon1" name="weight-inp" value="{{ value['svars'] }}">
-            </div>
+            <div class="container p-4 pt-0 mt-4">
 
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Location: </span>
+                <div class="form-floating mb-2 me-2">
+                    {% if form.date.errors %}
+                        {{ form.date(class="form-control is-invalid",placeholder="Date",value=value['Zvejas_datums']) }}
+                        <div class="invalid-feedback">
+                            {% for error in form.date.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.date(class="form-control",placeholder="Date",max=date,value=value['Zvejas_datums']) }}
+                    {% endif %}
+                    {{ form.date.label() }}
                 </div>
-                <input type="text" class="form-control" placeholder="Ķīšezers" aria-label="Username"
-                       aria-describedby="basic-addon1" name="locat-inp" value="{{ value['Zvejas_vieta'] }}">
+
+                <div class="form-floating mb-2 me-2">
+                    {% if form.size.errors %}
+                        {{ form.size(class="form-control is-invalid",placeholder="Size",value=value['izmers']) }}
+                        <div class="invalid-feedback">
+                            {% for error in form.size.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.size(class="form-control",placeholder="Size",value=value['izmers']) }}
+                    {% endif %}
+                    {{ form.size.label() }}
+                </div>
+
+                <div class="form-floating mb-2 me-2">
+                    {% if form.size.errors %}
+                        {{ form.weight(class="form-control is-invalid",placeholder="Weight",value=value['svars']) }}
+                        <div class="invalid-feedback">
+                            {% for error in form.weight.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.weight(class="form-control",placeholder="Weight",value=value['svars']) }}
+                    {% endif %}
+                    {{ form.weight.label() }}
+                </div>
+
+                <div class="form-floating mb-2 me-2">
+                    {% if form.location.errors %}
+                        {{ form.weight(class="form-control is-invalid",placeholder="Location",
+                    value=value['Zvejas_vieta']) }}
+                        <div class="invalid-feedback">
+                            {% for error in form.location.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.location(class="form-control",placeholder="Location",
+                    value=value['Zvejas_vieta']) }}
+                    {% endif %}
+                    {{ form.location.label() }}
+                </div>
+                <div class="text-center" style="margin-top:1rem">
+                    <button type="button" class="btn btn-danger"
+                            onclick="window.location.href='{{ url_for('bilde',bild_id=value['ID']) }}'"
+                            style="margin-right: 0.75rem;">Cancel
+                    </button>
+                    {{ form.save(class="btn btn-primary") }}
+                </div>
             </div>
-        </div>
-        <div class="text-center" style="margin-top:1rem">
-            <button type="button" class="btn btn-danger" onclick="window.location.href='{{ url_for('profile') }}'"
-                    style="margin-right: 0.75rem;">Cancel
-            </button>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-            <input type="text" name="loms_id" style="display: none" value="{{ value['ID'] }}"/>
-    </form>
+        </form>
+
+        {##}
+        {#    <form method="post" action="{{ url_for('update_db')}}" id="edit_form">#}
+        {#        <div class="text-center" style="margin-top:1rem">#}
+        {#            <div class="container" style="width:90%">#}
+        {#                <input type="text" class="form-control" placeholder="Zivs Nosaukums"#}
+        {#                       aria-label="Username" value="{{ value['Lietotaja_nosaukums'] }}" name="fish_name"#}
+        {#                       style="text-align:#}
+        {#                                           center;font-weight:bold;font-size:2rem"#}
+        {#                       aria-describedby="basic-addon1" style="max-width:90%;display:inline">#}
+        {#            </div>#}
+        {##}
+        {#            <img class="rounded mx-auto d-block" src="data:image/jpeg;base64,{{ value['Bilde'] }}" style="max-width:90%;#}
+        {#    margin-top: 1rem">#}
+        {#        </div>#}
+        {##}
+        {##}
+        {##}
+        {##}
+        {#        <div class="container" style="margin-top:1.5rem;width:85%">#}
+        {#            <div class="input-group mb-2">#}
+        {#                <div class="input-group-prepend">#}
+        {#                    <span class="input-group-text" id="basic-addon1">Date: </span>#}
+        {#                </div>#}
+        {#                <input type="date" class="form-control" name="date-inp" value="{{ value['Zvejas_datums'] }}"#}
+        {#                       min="2010-01-01" max="{{#}
+        {#                        date }}">#}
+        {#            </div>#}
+        {#            <div class="input-group mb-2">#}
+        {#                <div class="input-group-prepend">#}
+        {#                    <span class="input-group-text" id="basic-addon1">Size: </span>#}
+        {#                </div>#}
+        {#                <input type="number" step = "any" class="form-control" placeholder="m" aria-label="Username"#}
+        {#                       aria-describedby="basic-addon1" name="size-inp" value="{{ value['izmers'] }}">#}
+        {#            </div>#}
+        {##}
+        {#            <div class="input-group mb-2">#}
+        {#                <div class="input-group-prepend">#}
+        {#                    <span class="input-group-text" id="basic-addon1">Weight: </span>#}
+        {#                </div>#}
+        {#                <input type="number" step = "any" class="form-control" placeholder="kg" aria-label="Username"#}
+        {#                       aria-describedby="basic-addon1" name="weight-inp" value="{{ value['svars'] }}">#}
+        {#            </div>#}
+        {##}
+        {#            <div class="input-group mb-2">#}
+        {#                <div class="input-group-prepend">#}
+        {#                    <span class="input-group-text" id="basic-addon1">Location: </span>#}
+        {#                </div>#}
+        {#                <input type="text" class="form-control" placeholder="Ķīšezers" aria-label="Username"#}
+        {#                       aria-describedby="basic-addon1" name="locat-inp" value="{{ value['Zvejas_vieta'] }}">#}
+        {#            </div>#}
+        {#        </div>#}
+        {#        <div class="text-center" style="margin-top:1rem">#}
+        {#            <button type="button" class="btn btn-danger" onclick="window.location.href='{{ url_for('profile') }}'"#}
+        {#                    style="margin-right: 0.75rem;">Cancel#}
+        {#            </button>#}
+        {#            <button type="submit" class="btn btn-primary">Save</button>#}
+        {#        </div>#}
+        {#            <input type="text" name="loms_id" style="display: none" value="{{ value['ID'] }}"/>#}
+        {#    </form>#}
     {% endfor %}
 {% endblock %}

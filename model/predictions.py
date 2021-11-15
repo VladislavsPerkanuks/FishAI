@@ -37,5 +37,4 @@ def predict(bilde):
 
     sort_orders = sorted(predict_dict.items(), key=lambda x: x[1], reverse=True)
 
-
-    return sort_orders
+    return np.array(sort_orders).tolist()

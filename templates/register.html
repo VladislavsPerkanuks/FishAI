@@ -1,20 +1,15 @@
 {% extends "head.html" %}
 {% block body %}
 
-    <div class="d-flex pt-4 ps-4">
+    <div class="container text-center p-4 pb-2">
         {% with messages = get_flashed_messages(with_categories=True) %}
             {% if messages %}
                 {% for category, message in messages %}
                     <div class="alert alert-{{ category }}"><strong>{{ message }}</strong></div>
-                    {#                        <p class="alert alert-{{ category }}">#}
-{#                    <p class="alert alert-success"></p>#}
-                    {#                        </p>#}
                 {% endfor %}
             {% endif %}
         {% endwith %}
-
     </div>
-
 
     <form method='POST' action="">
         <div class="form-group m-4 mt-2">

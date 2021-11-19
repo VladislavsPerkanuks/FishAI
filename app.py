@@ -120,6 +120,7 @@ def profile():
     except:
         return redirect(url_for('login'))
 
+
 @app.route("/photo_upload", methods=['GET', 'POST'])
 @login_required
 def photo_upload():
@@ -139,7 +140,7 @@ def photo_upload():
         connection.close()
 
         predictions = predict(path_photo)
-        return redirect(url_for('photo_saving', predictions=predictions,latitude = latitude , longitude = longitude))
+        return redirect(url_for('photo_saving', predictions=predictions, latitude=latitude, longitude=longitude))
 
 
 @app.route("/photo_saving", methods=['GET', 'POST'])
@@ -158,26 +159,28 @@ def photo_saving():
     predictions = split_string_to_array(request.args.getlist('predictions'))
     latitude = request.args.get('latitude')
     longitude = request.args.get('longitude')
-    print(latitude, longitude)
+    # print(latitude, longitude)
     if latitude and longitude:
-        location = get_closest_location(latitude,longitude)
+        latitude = float(latitude)
+        longitude = float(longitude)
+        location = get_closest_location(latitude, longitude)
     else:
         location = ''
-    print(location)
+    # print(location)
     form = UploadForm()
     if form.validate_on_submit():
         date = form.date.data.strftime('%Y-%m-%d')
-        location = form.location.data
+        location_user = form.location.data
         weight = None if form.weight.data is None else float(form.weight.data)
         size = None if form.size.data is None else float(form.size.data)
         fish_name = form.fish_name.data
 
         connection = sqlite3.connect(db)
         cur = connection.cursor()
-        query = """ INSERT INTO Loms VALUES (Null,?,?,?,?,?,?)"""
+        query = """ INSERT INTO Loms VALUES (Null,?,?,?,?,?,?,?,?)"""
 
         values_to_insert = (
-            current_user.id, photo, date, location, weight, size)
+            current_user.id, photo, date, location_user,latitude,longitude, weight, size)
         cur.execute(query, values_to_insert)
 
         query = """ INSERT INTO Prognozes VALUES (Null,last_insert_rowid(),?,?,?,?,?,?,?)"""
@@ -197,7 +200,7 @@ def photo_saving():
         return redirect(url_for('profile'))
 
     return render_template('upload.html', blob_photo=photo, predictions=predictions, date=get_today_date(),
-                           form=form, location = location)
+                           form=form, location=location)
 
 
 # @app.route("/save_fish", methods=['GET', 'POST'])
@@ -230,7 +233,8 @@ def bilde():
     connection = sqlite3.connect(db)
     cur = connection.cursor()
     # query = """SELECT * from Loms,Prognozes where Loms.Lietotaja_ID = ? AND Loms.ID = ?"""
-    query = """select loms.id,loms.lietotaja_id,bilde,zvejas_datums,zvejas_vieta,svars,izmers,lietotaja_nosaukums,
+    query = """select loms.id,loms.lietotaja_id,bilde,latitude,longitude,zvejas_datums,zvejas_vieta,svars,izmers,
+    lietotaja_nosaukums,
     nosaukums1,procenti1,nosaukums2,procenti2,nosaukums3,procenti3
     from loms,prognozes
     where loms.id = prognozes.id and Lietotaja_ID = ? and loms.id = ?"""
@@ -311,4 +315,4 @@ def update_db():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=8000,threaded=True, debug=True)
+    app.run(threaded=True, debug=True, ssl_context='adhoc')

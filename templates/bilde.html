@@ -87,6 +87,33 @@
                 </div>
             {% endif %}
         </div>
+        <div id="map" class="container p-4 pt-3 map"></div>
+        <script type="text/javascript">
+            var map = new ol.Map({
+                target: 'map',
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    })
+                ],
+                view: new ol.View({
+                    center: ol.proj.fromLonLat([{{ value['longitude']}}, {{ value['latitude']}}]),
+                    zoom: 14
+                })
+            });
+            var layer = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [
+                        new ol.Feature({
+                            geometry: new ol.geom.Point(ol.proj.fromLonLat([{{ value['longitude']}}, {{ value['latitude']}}]))
+                        })
+                    ]
+                })
+            });
+            map.addLayer(layer);
+
+        </script>
+
         <br>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">

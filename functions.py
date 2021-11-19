@@ -11,10 +11,10 @@ def img_to_base64(bildite):
 
 
 def get_file_path(file):
-    file_path = os.path.join('S:\\Zivju_projeketelis\\', file.filename)
+    file_path = os.path.join('/home/vladislavs/Desktop/zivis', file.filename)
     with  Image.open(file) as im:
         image = ImageOps.exif_transpose(im)
-        image.thumbnail((1024,1024), Image.ANTIALIAS)
+        image.thumbnail((512,512), Image.ANTIALIAS)
         image.save(file_path)
     return file_path
 

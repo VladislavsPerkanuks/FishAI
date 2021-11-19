@@ -1,21 +1,30 @@
 import ast
-from flask import render_template, session, url_for, flash, request, redirect, Response
+from flask import render_template, session, url_for, flash, request, redirect, Response, Flask
 import sqlite3
 from flask_login import login_manager, LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 from forms import LoginForm, RegisterForm, UploadForm
 from passlib.hash import sha256_crypt
 
 from classes import User
-from run import create_app
+# from run import create_app
 from functions import *
 from model.predictions import predict
 import pandas as pd
 
+# from run import app
+
 db = 'DAB.db'
 
-app = create_app()
+app = Flask(__name__)
+app.debug = True
+app.secret_key = '444f44fe4fe1fe19f49ef41ef1258'
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
+
+
+# app = create_app()
+# login_manager = LoginManager(app)
+# login_manager.login_view = "login"
 
 
 @login_manager.user_loader
@@ -43,7 +52,7 @@ def login():
         curs.execute("SELECT * FROM Lietotajs where Lietotaja_vards = (?)", [form.username.data])
         user = (curs.fetchone())
         if not user:
-            flash('This user is not registered!','warning')
+            flash('This user is not registered!', 'warning')
             return render_template('login.html', title='Login', form=form)
         user = list(user)
         Us = load_user(user[0])
@@ -51,7 +60,7 @@ def login():
             login_user(Us)
             return redirect(url_for('profile'))
         else:
-            flash('Incorrect password','warning')
+            flash('Incorrect password', 'warning')
     return render_template('login.html', title='Login', form=form)
 
 
@@ -67,7 +76,7 @@ def register():
         curs.execute("SELECT * FROM Lietotajs where Lietotaja_vards = (?)", [form.username.data])
         user = (curs.fetchone())
         if user:
-            flash('This user is already registered!','warning')
+            flash('This user is already registered!', 'warning')
             return render_template('register.html', title='Register', form=form)
 
         curs.execute("INSERT INTO Lietotajs values (Null,?,?,?)", [name, username, password])
@@ -86,32 +95,31 @@ def logout():
 
 
 @app.route("/", methods=['GET', 'POST'])
+@login_required
 def profile():
-    try:
-        query = """SELECT * from Loms where Lietotaja_ID = ? ORDER BY Zvejas_datums DESC,ID DESC """
-        connection = sqlite3.connect(db)
-        cur = connection.cursor()
-        result = pd.read_sql(query, connection, params=[current_user.id])
-        cur.close()
-        connection.close()
-        unique_dates = []
-        df_array = []
-        normal_dat = []
-        for reslt in result['Zvejas_datums']:
-            if reslt not in unique_dates:
-                unique_dates.append(reslt)
-                normal_date = datetime.strptime(reslt, '%Y-%m-%d').strftime('%A, %d %B %Y')
-                normal_dat.append(normal_date)
+    query = """SELECT * from Loms where Lietotaja_ID = ? ORDER BY Zvejas_datums DESC,ID DESC """
+    connection = sqlite3.connect(db)
+    cur = connection.cursor()
+    result = pd.read_sql(query, connection, params=[current_user.id])
+    cur.close()
+    connection.close()
+    unique_dates = []
+    df_array = []
+    normal_dat = []
+    for reslt in result['Zvejas_datums']:
+        if reslt not in unique_dates:
+            unique_dates.append(reslt)
+            normal_date = datetime.strptime(reslt, '%Y-%m-%d').strftime('%A, %d %B %Y')
+            normal_dat.append(normal_date)
 
-        for date in unique_dates:
-            hey = result[result['Zvejas_datums'] == date]
-            df_array.append(hey)
+    for date in unique_dates:
+        hey = result[result['Zvejas_datums'] == date]
+        df_array.append(hey)
 
-        return render_template('profile.html', title="Main gallery", id=current_user.id, datumi=normal_dat,
-                               info=df_array)
-    except:
-        return redirect(url_for('login'))
-
+    return render_template('profile.html', title="Main gallery", id=current_user.id, datumi=normal_dat,
+                           info=df_array)
+    # except:
+    #     return redirect(url_for('login'))
 
 @app.route("/photo_upload", methods=['GET', 'POST'])
 @login_required
@@ -119,15 +127,32 @@ def photo_upload():
     if request.method == 'POST':
         path_photo = get_file_path(request.files.get('file'))
         blob_file = img_to_base64(path_photo)
-        print(len(blob_file))
+        connection = sqlite3.connect(db)
+        cur = connection.cursor()
+        query = """ INSERT INTO temp_bilde VALUES (?,?)"""
+        values = (blob_file, current_user.id)
+        cur.execute(query, values)
+        connection.commit()
+        cur.close()
+        connection.close()
+
         predictions = predict(path_photo)
-        return redirect(url_for('photo_saving', photo=blob_file, predictions=predictions))
+        return redirect(url_for('photo_saving', predictions=predictions))
 
 
 @app.route("/photo_saving", methods=['GET', 'POST'])
 @login_required
 def photo_saving():
-    photo = request.args.get('photo')
+    connection = sqlite3.connect(db)
+    cur = connection.cursor()
+    query = """SELECT bilde FROM temp_bilde WHERE liet_id = ?  AND ROWID IN ( SELECT max( ROWID ) FROM temp_bilde );"""
+    values = (current_user.id,)
+    cur.execute(query, values)
+    photo = list(cur.fetchone())[0]
+    cur.close()
+    connection.close()
+
+    # photo = request.args.get('photo')
     predictions = split_string_to_array(request.args.getlist('predictions'))
     form = UploadForm()
     if form.validate_on_submit():
@@ -154,6 +179,8 @@ def photo_saving():
         )
         cur.execute(query, values_for_query)
 
+        query = """DELETE FROM temp_bilde"""
+        cur.execute(query)
         cur.close()
         connection.commit()
         connection.close()
@@ -259,8 +286,8 @@ def edit_record():
     result = pd.read_sql(query, connection, params=[current_user.id, bild_id])
     cur.close()
     connection.close()
-    fishes = ['salmon','north pike','river perch']
-    return render_template('edit.html', title='Edit', info=result, form=form,fishes=fishes)
+    fishes = ['salmon', 'north pike', 'river perch']
+    return render_template('edit.html', title='Edit', info=result, form=form, fishes=fishes)
 
 
 @app.route("/update_db", methods=['GET', 'POST'])
@@ -273,4 +300,4 @@ def update_db():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, threaded=True, debug=True)
+    app.run(threaded=True, debug=True)

@@ -1,7 +1,37 @@
 import base64
 import os
 from datetime import datetime
+
+import numpy as np
+import pandas as pd
 from PIL import Image, ImageOps
+from sys import platform
+
+
+def haversine(lat1, lon1, lat2, lon2, to_radians=False, earth_radius=6371):
+    """
+    slightly modified version: of http://stackoverflow.com/a/29546836/2901002
+
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees or in radians)
+
+    All (lat, lon) coordinates must have numeric dtypes and be of equal length.
+
+    """
+    if to_radians:
+        lat1, lon1, lat2, lon2 = np.radians([lat1, lon1, lat2, lon2])
+
+    a = np.sin((lat2 - lat1) / 2.0) ** 2 + \
+        np.cos(lat1) * np.cos(lat2) * np.sin((lon2 - lon1) / 2.0) ** 2
+
+    return earth_radius * 2 * np.arcsin(np.sqrt(a))
+
+
+def get_closest_location(latitude, longitude):
+    df = pd.read_csv('C:\\Users\\Vladislavs\\Documents\\fishai\\latvian_udenstiplnes.csv',
+                     sep=',', encoding='utf-8', index_col=0)
+    df['dist'] = haversine(df['Latitude'], df['Longitude'], latitude, longitude)
+    return df.sort_values(by=['dist']).head(1)['Nosaukums'].values[0]
 
 
 def img_to_base64(bildite):
@@ -11,11 +41,15 @@ def img_to_base64(bildite):
 
 
 def get_file_path(file):
-    file_path = os.path.join('/home/vladislavs/Desktop/zivis', file.filename)
+    if platform == "linux" or platform == "linux2":
+        file_path = os.path.join('/home/vladislavs/Desktop/zivis', file.filename)
+    else:
+        file_path = os.path.join('S:/Zivju_projeketelis/', file.filename)
     with  Image.open(file) as im:
         image = ImageOps.exif_transpose(im)
-        image.thumbnail((512,512), Image.ANTIALIAS)
+        image.thumbnail((512, 512), Image.ANTIALIAS)
         image.save(file_path)
+
     return file_path
 
 

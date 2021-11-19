@@ -41,6 +41,22 @@
                     {{ form.date.label() }}
                 </div>
 
+                            <div class="form-floating mb-2 me-2">
+                    {% if form.location.errors %}
+                        {{ form.weight(class="form-control is-invalid",placeholder="Location",
+                    value=value['Zvejas_vieta']) }}
+                        <div class="invalid-feedback">
+                            {% for error in form.location.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.location(class="form-control",placeholder="Location",
+                    value=value['Zvejas_vieta']) }}
+                    {% endif %}
+                    {{ form.location.label() }}
+                </div>
+
                 <div class="form-floating mb-2 me-2">
                     {% if form.size.errors %}
                         {{ form.size(class="form-control is-invalid",placeholder="Size",value=value['izmers']) }}
@@ -69,21 +85,9 @@
                     {{ form.weight.label() }}
                 </div>
 
-                <div class="form-floating mb-2 me-2">
-                    {% if form.location.errors %}
-                        {{ form.weight(class="form-control is-invalid",placeholder="Location",
-                    value=value['Zvejas_vieta']) }}
-                        <div class="invalid-feedback">
-                            {% for error in form.location.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.location(class="form-control",placeholder="Location",
-                    value=value['Zvejas_vieta']) }}
-                    {% endif %}
-                    {{ form.location.label() }}
-                </div>
+
+
+
                 <div class="text-center" style="margin-top:1rem">
                     <button type="button" class="btn btn-danger"
                             onclick="window.location.href='{{ url_for('bilde',bild_id=value['ID']) }}'"

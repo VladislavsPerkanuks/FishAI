@@ -6,7 +6,6 @@ from forms import LoginForm, RegisterForm, UploadForm
 from passlib.hash import sha256_crypt
 
 from classes import User
-# from run import create_app
 from functions import *
 from model.predictions import predict
 import pandas as pd
@@ -95,37 +94,40 @@ def logout():
 
 
 @app.route("/", methods=['GET', 'POST'])
-@login_required
 def profile():
-    query = """SELECT * from Loms where Lietotaja_ID = ? ORDER BY Zvejas_datums DESC,ID DESC """
-    connection = sqlite3.connect(db)
-    cur = connection.cursor()
-    result = pd.read_sql(query, connection, params=[current_user.id])
-    cur.close()
-    connection.close()
-    unique_dates = []
-    df_array = []
-    normal_dat = []
-    for reslt in result['Zvejas_datums']:
-        if reslt not in unique_dates:
-            unique_dates.append(reslt)
-            normal_date = datetime.strptime(reslt, '%Y-%m-%d').strftime('%A, %d %B %Y')
-            normal_dat.append(normal_date)
+    try:
+        query = """SELECT * from Loms where Lietotaja_ID = ? ORDER BY Zvejas_datums DESC,ID DESC """
+        connection = sqlite3.connect(db)
+        cur = connection.cursor()
+        result = pd.read_sql(query, connection, params=[current_user.id])
+        cur.close()
+        connection.close()
+        unique_dates = []
+        df_array = []
+        normal_dat = []
+        for reslt in result['Zvejas_datums']:
+            if reslt not in unique_dates:
+                unique_dates.append(reslt)
+                normal_date = datetime.strptime(reslt, '%Y-%m-%d').strftime('%A, %d %B %Y')
+                normal_dat.append(normal_date)
 
-    for date in unique_dates:
-        hey = result[result['Zvejas_datums'] == date]
-        df_array.append(hey)
+        for date in unique_dates:
+            hey = result[result['Zvejas_datums'] == date]
+            df_array.append(hey)
 
-    return render_template('profile.html', title="Main gallery", id=current_user.id, datumi=normal_dat,
-                           info=df_array)
-    # except:
-    #     return redirect(url_for('login'))
+        return render_template('profile.html', title="Main gallery", id=current_user.id, datumi=normal_dat,
+                               info=df_array)
+    except:
+        return redirect(url_for('login'))
 
 @app.route("/photo_upload", methods=['GET', 'POST'])
 @login_required
 def photo_upload():
     if request.method == 'POST':
         path_photo = get_file_path(request.files.get('file'))
+        latitude = request.form.get('latitude')
+        longitude = request.form.get('longitude')
+        # print(latitude,longitude)
         blob_file = img_to_base64(path_photo)
         connection = sqlite3.connect(db)
         cur = connection.cursor()
@@ -137,7 +139,7 @@ def photo_upload():
         connection.close()
 
         predictions = predict(path_photo)
-        return redirect(url_for('photo_saving', predictions=predictions))
+        return redirect(url_for('photo_saving', predictions=predictions,latitude = latitude , longitude = longitude))
 
 
 @app.route("/photo_saving", methods=['GET', 'POST'])
@@ -154,6 +156,14 @@ def photo_saving():
 
     # photo = request.args.get('photo')
     predictions = split_string_to_array(request.args.getlist('predictions'))
+    latitude = request.args.get('latitude')
+    longitude = request.args.get('longitude')
+    print(latitude, longitude)
+    if latitude and longitude:
+        location = get_closest_location(latitude,longitude)
+    else:
+        location = ''
+    print(location)
     form = UploadForm()
     if form.validate_on_submit():
         date = form.date.data.strftime('%Y-%m-%d')
@@ -186,7 +196,8 @@ def photo_saving():
         connection.close()
         return redirect(url_for('profile'))
 
-    return render_template('upload.html', blob_photo=photo, predictions=predictions, date=get_today_date(), form=form)
+    return render_template('upload.html', blob_photo=photo, predictions=predictions, date=get_today_date(),
+                           form=form, location = location)
 
 
 # @app.route("/save_fish", methods=['GET', 'POST'])
@@ -300,4 +311,4 @@ def update_db():
 
 
 if __name__ == '__main__':
-    app.run(threaded=True, debug=True)
+    app.run(host='0.0.0.0',port=8000,threaded=True, debug=True)

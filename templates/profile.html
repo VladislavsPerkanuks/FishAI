@@ -10,10 +10,13 @@
     <div class="d-flex justify-content-center pt-4">
         <form action="{{ url_for('photo_upload') }}" method=post enctype=multipart/form-data>
             <div class="input-file-container">
-                <input class="input-file" id="my-file" type="file" name="file" accept="image/*" onchange="this.form.submit()">
+                <input class="input-file" id="my-file" type="file" name="file" accept="image/*"
+                       onchange="this.form.submit()">
                 <label tabindex="0" for="my-file" class="input-file-trigger"><i class="bi bi-cloud-arrow-up"></i> Upload
                     Fish
                 </label>
+                <input style="display: none" id="latitude" name="latitude">
+                <input style="display: none" id="longitude" name="longitude">
             </div>
             <p class="file-return"></p>
         </form>
@@ -33,7 +36,7 @@
                 {% for key,value in array.iterrows() %}
                     <div class="col-4">
                         <img class="rounded" src="data:image/jpeg;base64,{{ value['Bilde'] }}"
-                            style="width:97%;height:100%; object-fit: cover " id="{{ value['ID'] }}"
+                             style="width:97%;height:100%; object-fit: cover " id="{{ value['ID'] }}"
                              onclick="window.location.href = '{{ url_for('bilde',bild_id = value['ID']) }}'">
                     </div>
                 {% endfor %}
@@ -60,6 +63,15 @@
     });
     fileInput.addEventListener("change", function (event) {
         the_return.innerHTML = this.value;
-    });  </script>
+    });
+    $(document).ready(function () {
+        navigator.geolocation.getCurrentPosition(success);
+    });
+
+    function success(position) {
+        document.getElementById('latitude').value=position.coords.latitude;
+        document.getElementById('longitude').value=position.coords.longitude;
+        {#console.log(position.coords.latitude, position.coords.longitude)#}
+    }</script>
 
 {% endblock %}

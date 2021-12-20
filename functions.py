@@ -28,8 +28,15 @@ def haversine(lat1, lon1, lat2, lon2, to_radians=False, earth_radius=6371):
 
 
 def get_closest_location(latitude, longitude):
-    df = pd.read_csv('C:\\Users\\Vladislavs\\Documents\\fishai\\latvian_udenstiplnes.csv',
-                     sep=',', encoding='utf-8', index_col=0)
+    # ja palaist no lokala datora
+    # csv_path = ceļš/līdz/latvian_udenstiplnes.csv
+
+    # ja ir uz servera
+    if platform == "linux" or platform == "linux2":
+        csv_path = '/home/vladislavs/PycharmProjects/fishai/latvian_udenstiplnes.csv'
+    else:
+        csv_path = 'latvian_udenstiplnes.csv'
+    df = pd.read_csv(csv_path, sep=',', encoding='utf-8', index_col=0)
     df['dist'] = haversine(df['Latitude'], df['Longitude'], latitude, longitude)
     return df.sort_values(by=['dist']).head(1)['Nosaukums'].values[0]
 
@@ -41,11 +48,15 @@ def img_to_base64(bildite):
 
 
 def get_file_path(file):
+    # ja palaist no lokala datora
+    # file_path = ceļš uz jaunu folderi kur glābāsies visas iesūtītas fotogrāfijas
+
+    # ja ir uz servera
     if platform == "linux" or platform == "linux2":
         file_path = os.path.join('/home/vladislavs/Desktop/zivis', file.filename)
     else:
         file_path = os.path.join('S:/Zivju_projeketelis/', file.filename)
-    with  Image.open(file) as im:
+    with Image.open(file) as im:
         image = ImageOps.exif_transpose(im)
         image.thumbnail((512, 512), Image.ANTIALIAS)
         image.save(file_path)

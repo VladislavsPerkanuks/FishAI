@@ -48,13 +48,13 @@ class UploadForm(FlaskForm):
     date = DateField('Date', default=date.today(), format='%Y-%m-%d', validators=[
         InputRequired(message='Date must not be empty!')
     ])
-    size = DecimalField('Size', validators=[
+    size = DecimalField('Size, cm', validators=[
         Optional(),
-        NumberRange(min=-1, max=10, message="Size must not exceed 10 m")
+        NumberRange(min=0, max=1000, message="Size must not exceed 10 m")
     ])
-    weight = DecimalField('Weight', validators=[
+    weight = DecimalField('Weight, kg', validators=[
         Optional(),
-        NumberRange(min=-1, max=30, message="Weight must not exceed 30 kg")
+        NumberRange(min=0, max=30, message="Weight must not exceed 30 kg")
     ])
     location = StringField('Location', validators=[
         Optional(),

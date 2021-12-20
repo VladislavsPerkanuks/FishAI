@@ -1,4 +1,3 @@
-import ast
 from flask import render_template, session, url_for, flash, request, redirect, Response, Flask
 import sqlite3
 from flask_login import login_manager, LoginManager, UserMixin, login_required, login_user, logout_user, current_user
@@ -10,20 +9,12 @@ from functions import *
 from model.predictions import predict
 import pandas as pd
 
-# from run import app
-
 db = 'DAB.db'
-
 app = Flask(__name__)
 app.debug = True
 app.secret_key = '444f44fe4fe1fe19f49ef41ef1258'
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
-
-
-# app = create_app()
-# login_manager = LoginManager(app)
-# login_manager.login_view = "login"
 
 
 @login_manager.user_loader
@@ -180,7 +171,7 @@ def photo_saving():
         query = """ INSERT INTO Loms VALUES (Null,?,?,?,?,?,?,?,?)"""
 
         values_to_insert = (
-            current_user.id, photo, date, location_user,latitude,longitude, weight, size)
+            current_user.id, photo, date, location_user, latitude, longitude, weight, size)
         cur.execute(query, values_to_insert)
 
         query = """ INSERT INTO Prognozes VALUES (Null,last_insert_rowid(),?,?,?,?,?,?,?)"""
@@ -203,29 +194,6 @@ def photo_saving():
                            form=form, location=location)
 
 
-# @app.route("/save_fish", methods=['GET', 'POST'])
-# @login_required
-# def save_fish():
-#     if request.method == 'POST':
-#         # connection = sqlite3.connect(db)
-#         # cur = connection.cursor()
-#         # query = """ INSERT INTO Prognozes VALUES (Null,?,?,?,?,?,?,?)"""
-#         # values_for_query = (
-#         #     predictions[0][0],
-#         #     predictions[0][0],predictions[0][1],
-#         #     predictions[1][0],predictions[1][1],
-#         #     predictions[2][0],predictions[2][1]
-#         # )
-#         # cur.execute(query, values_for_query)
-#         # cur.close()
-#         # connection.commit()
-#         # connection.close()
-#
-#         data = request.form.to_dict()
-#
-#     return redirect(url_for('profile'))
-
-
 @app.route("/bilde", methods=['GET', 'POST'])
 @login_required
 def bilde():
@@ -243,8 +211,6 @@ def bilde():
     connection.close()
 
     result['Zvejas_datums'] = pd.to_datetime(result['Zvejas_datums']).dt.strftime('%d.%m.%Y')
-
-    # return result.to_html()
     return render_template('bilde.html', bild_id=bild_id, info=result)
 
 
@@ -254,7 +220,6 @@ def delete_record():
     bild_id = request.args.get('bild_id')
     connection = sqlite3.connect(db)
     cur = connection.cursor()
-    # query = """SELECT * from Loms,Prognozes where Loms.Lietotaja_ID = ? AND Loms.ID = ?"""
     query = """DELETE FROM Loms WHERE Lietotaja_ID = ? AND LOMS.ID = ?"""
     values_for_query = (current_user.id, bild_id)
     cur.execute(query, values_for_query)
@@ -315,4 +280,4 @@ def update_db():
 
 
 if __name__ == '__main__':
-    app.run(threaded=True, debug=True, ssl_context='adhoc')
+    app.run(threaded=True, debug=True)

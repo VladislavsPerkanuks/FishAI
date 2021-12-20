@@ -109,10 +109,10 @@ Galvenais novērtēšanas kritērijs būs - cik Latvijas zivju sugu, algoritms b
 |   Izvietošana   |           Apraksts           |
 |:---------------:|:----------------------------:|
 |    Gunicorn     |       Tīmekļa serveris       |
-|      nginx      |        Reverse proxy         |
+|      NginX      |        Reverse proxy         |
 | Virtuālā mašīna | Vieta, kur mājaslapa strādās |
 
-Kā risinājums būs mājaslapa, kuras pamatnē būs Flask satvars un SQlite datubāze. Tiks izmantots viens no pazīstamākajiem python tīmekļa serveriem guncicorn kopā ar nginx kā reverse proxy (apgrieztais starpniekserveris). Risinājums tiks izvietots uz virtuālās mašīnas ar Ubuntu operētājsistēmu, un būs pieejams tiešsaistē pēc adreses [www.fishai.me](https://fishai.me).
+Kā risinājums būs mājaslapa, kuras pamatnē būs Flask satvars un SQlite datubāze. Tiks izmantots viens no pazīstamākajiem python tīmekļa serveriem Gunicorn  kopā ar NginX kā reverse proxy (apgrieztais starpniekserveris). Risinājums tiks izvietots uz virtuālās mašīnas ar Ubuntu operētājsistēmu, un būs pieejams tiešsaistē pēc adreses [www.fishai.me](https://fishai.me).
 
 ## Novērtēšanas plāns
 
@@ -157,8 +157,8 @@ Modeļu testēšanai tika izmantots, atsevišķs Python skripts, kurš ielādēj
 Kā redzams, labākais modelis, kas arī tiks izmantots mūsu gala risinājumā, ar rezultātu 61 pareizi prognozētām zivīm no 72, jeb ar 84.72% precizitāti ir ar sekojošiem parametriem:
 
 - Trenēšanas datu kopas izmērs - 100 bildes katrai sugai
-- Izmantotais bilžu skaits vienā iterācija – 32  
-- Apmācības ciklu daudzums – 20
+- Izmantotais bilžu skaits vienā iterācija – 32 bildes
+- Apmācības ciklu daudzums – 20 cikli
 
 Runājot par modeļa patērēto laiku priekš zivs atpazīšanas, ir divas lietas, ko var piebilst. Pirmā visiem 15 modeļiem, tas laiks ir ļoti mazs, kas ir ± 50ms un reālajā dzīvē nebūs nekādas atšķirības starp 49ms un 55ms, tāpēc man liekas, ka tas ir ļoti mazsvarīgs faktors šajā novērtēšanā. Otrā lieta, visi modeļi ir veidoti pēc viena principa, jeb arhitektūras, kas nozīmē to, ka visiem modeļiem būtu jābūt līdzīgiem laikiem, jo tiem parametriem, ko mēs mainījām, nevajadzētu nekādīgi ietekmēt prognozēšanas laiku. Tāpēc tiek uzskatīts, ka laika atšķirība ir kļūdas robežās, un visiem modeļiem prognozēšanas laiks ir vienāds.
 
@@ -166,7 +166,7 @@ Runājot par modeļa patērēto laiku priekš zivs atpazīšanas, ir divas lieta
 
 ### 1. variants (Ieteicams)
 
-Risinājums ir pieejams, pēc adreses [www.fishai.me](https://fishai.me). Tas ir gatavs lietošanai, vienīgi ir jāizveido savs personīgais konts ar reģistrēšanas palīdzību. Diemžēl mums nav lieka datora uz kura varētu turēt serveri visu laiku, tāpēc pirms apskatīšanas būtu jāpaziņo mums, lai varētu ieslēgtu serveri, vai arī pateikt kurā dienā notiks apskatīšana, lai varētu atstāt serveri strādāt.
+Risinājums ir pieejams, pēc adreses [www.fishai.me](https://fishai.me). Tas ir gatavs lietošanai, vienīgi ir jāizveido savs personīgais konts ar reģistrēšanas palīdzību. Diemžēl mums nav lieka datora uz kura varētu turēt serveri visu laiku, tāpēc pirms apskatīšanas būtu jāpaziņo mums, lai varētu ieslēgt serveri, vai arī pateikt kurā dienā notiks apskatīšana, lai varētu atstāt serveri strādāt.
 
 ### 2. variants
 
@@ -180,16 +180,22 @@ Risinājumu var nokopēt uz lokālā datora un palaist ar Flask iebūvēto serve
    pip install -r requirements.txt
    ```
 
-4. Izveidot jaunu mapi jebkurā vietā uz datora. Šajā mapē glabāsies visas lietotāju iesūtītās bildes. (Diemžēl nevarējām izdomāt, kā varētu iztikt bez tā, jo modelim obligāti vajag bildi, kas ir uz datora)
-5. Failā `functions.py` izdzēst līnijas 47-50 un tajā vietā pievienot rindiņu
+4. Izveidot jaunu mapi jebkurā vietā uz datora. Šajā mapē glabāsies visas lietotāju iesūtītās bildes. (Diemžēl 
+   nevarējām izdomāt, kā varētu iztikt bez tā, jo modelim obligāti vajag bildi, kas atrodas uz datora)
+5. Failā `functions.py` izdzēst līnijas 55-58 un tajā vietā pievienot rindiņu
 
    ```python
     file_path = celš/uz/jaunizveidotumapi
    ```
+6. Līdzīgi kā 5. punktā tajā pašā failā izdzēst līnijas 35-38 un tajā vietā pievienot rindiņu
 
-6. No virtuālās vides palaist skriptu `app.py`, kurš izveidos serveri uz 127.0.0.1:5000
+   ```python
+    csv_path = ceļš/līdz/latvian_udenstiplnes.csv
+   ```
 
-#### Ieteikumi
+7. No virtuālās vides palaist skriptu `app.py`, kurš izveidos serveri uz 127.0.0.1:5000
+
+##### Ieteikumi
 
 - Visas šīs darbības ir ieteicams darīt ar PyCharm programmatūru, tā kā tur ir iebūvēts gan jaunas virtuālās vides izveide, gan automātiskā bibliotēku instalācija no faila `requirements.txt`
 - Palaižot `app.py` caur PyCharm, logā Run/Debug Configurations, ir jāuzliek Working directory, kā `ceļš/līdz/mapei/fishai`

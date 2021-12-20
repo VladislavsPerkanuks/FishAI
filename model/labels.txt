@@ -1,4 +1,7 @@
-0 North Pike
-1 Salmon
-2 Carp
-3 River Perch
+0 Asaris
+1 Karpa
+2 Lasis
+3 Līdaka
+4 Nēģis
+5 Renģe
+6 Zutis

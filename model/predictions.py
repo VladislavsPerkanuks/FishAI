@@ -27,7 +27,8 @@ def predict(bilde):
 
     # run the inference
     prediction = model.predict(data)
-    labels = ['North Pike', 'Salmon', 'Carp', 'River Perch']
+    labels = ['European perch', 'Carp', 'Salmon', 'North Pike', 'European river lamprey', 'Baltic herring',
+              'European eel']
     predict_dict = {}
 
     prediction = [val for sbulist in prediction for val in sbulist]

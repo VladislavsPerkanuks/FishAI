@@ -213,4 +213,6 @@ Risinājumu var nokopēt uz lokālā datora un palaist ar Flask iebūvēto serve
 
  ## Prezentācijas plakāts
 
+ Prezentācijas plakāts Mirro vidē [miro.com/FishAI](https://miro.com/welcomeonboard/TnJla3lyWVllZXFCZDlwdjZQM1ZhZVBTcXdFZ1ZyZW1BM0VkTUxwQTg1UjN5ajU0WURTb25YNGp4cFpYeDRBQnwzMDc0NDU3MzU1MjM2NDUyMTAx?invite_link_id=948224761944)
+
   ![Prezentācijas plakāts](https://i.ibb.co/k2trRqD/Untitled.jpg)

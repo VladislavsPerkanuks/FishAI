@@ -203,3 +203,7 @@ Risinājumu var nokopēt uz lokālā datora un palaist ar Flask iebūvēto serve
   - Fails `functions.py` 31 līnija
   - Fails `app.py` 12 līnija
   - Fails `predictions.py` 5 līnija
+
+ ## Prezentācijas plakāts
+
+  ![Prezentācijas plakāts](https://ibb.co/pJMJrJZ)

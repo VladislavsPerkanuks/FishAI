@@ -213,4 +213,4 @@ Risinājumu var nokopēt uz lokālā datora un palaist ar Flask iebūvēto serve
 
  ## Prezentācijas plakāts
 
-  ![Prezentācijas plakāts](https://i.ibb.co/VDw1HkD/1234.jpg")
+  ![Prezentācijas plakāts](https://i.ibb.co/k2trRqD/Untitled.jpg)

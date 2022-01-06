@@ -1,3 +1,10 @@
+## Projekta izstrādātāji
+
+Vladislavs Perkaņuks
+Jānis Droiskis
+Gundega Līcīte
+Aija Albertiņa
+
 # Ievads
 
 ## Problēmas nostādne
